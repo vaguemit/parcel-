@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Parcel Box - Your Parcels</title>
+    <meta name="description"
+        content="Simple parcel management for residents. Check your parcel status and access your box.">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Parcel Box">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Main Container -->
+    <div class="app-container">
+        <!-- Header with Flat Number -->
+        <header class="header">
+            <div class="flat-info">
+                <span class="flat-label">Your Flat</span>
+                <h1 class="flat-number" id="flatNumber">A-304</h1>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Parcel Status Section -->
+            <section class="parcel-status" id="parcelStatus">
+                <!-- This will be populated by JavaScript -->
+            </section>
+
+            <!-- Action Button -->
+            <div class="action-area" id="actionArea">
+                <!-- This will be populated by JavaScript -->
+            </div>
+
+            <!-- Parcel History -->
+            <section class="history-section" id="historySection">
+                <h2 class="history-title">Recent Deliveries</h2>
+                <div class="history-list" id="historyList">
+                    <!-- History items will be populated by JavaScript -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Notification Toast -->
+        <div class="notification" id="notification">
+            <div class="notification-content">
+                <span class="notification-icon">📦</span>
+                <p class="notification-text" id="notificationText"></p>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div class="modal" id="confirmModal">
+            <div class="modal-content">
+                <div class="success-icon">✓</div>
+                <h2 class="modal-title">Parcel Collected!</h2>
+                <p class="modal-text">Your parcel has been collected successfully</p>
+                <button class="modal-button" onclick="closeModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed'));
+            });
+        }
+    </script>
+</body>
+
+</html>

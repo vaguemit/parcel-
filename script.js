@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderParcelStatus();
     renderActionButton();
     renderHistory();
-    
+
     // Simulate notification on load (for demo purposes)
     setTimeout(() => {
         if (appState.parcels.length > 0) {
@@ -58,7 +58,7 @@ function renderFlatNumber() {
 // Render Parcel Status
 function renderParcelStatus() {
     const statusEl = document.getElementById('parcelStatus');
-    
+
     if (appState.parcels.length === 0) {
         // Empty State
         statusEl.className = 'parcel-status';
@@ -71,7 +71,7 @@ function renderParcelStatus() {
         // Has Parcels
         const parcelCount = appState.parcels.length;
         const parcel = appState.parcels[0]; // Show first parcel
-        
+
         statusEl.className = 'parcel-status has-parcel';
         statusEl.innerHTML = `
             <span class="status-icon">📦</span>
@@ -99,7 +99,7 @@ function renderParcelStatus() {
 // Render Action Button
 function renderActionButton() {
     const actionEl = document.getElementById('actionArea');
-    
+
     if (appState.parcels.length > 0) {
         actionEl.innerHTML = `
             <button class="access-button" onclick="accessBox()">
@@ -117,8 +117,17 @@ function renderActionButton() {
 
 // Render History
 function renderHistory() {
+    const historySection = document.getElementById('historySection');
     const historyListEl = document.getElementById('historyList');
-    
+
+    // Hide history section if there are pending parcels
+    if (appState.parcels.length > 0) {
+        historySection.style.display = 'none';
+        return;
+    }
+
+    historySection.style.display = 'block';
+
     if (appState.history.length === 0) {
         historyListEl.innerHTML = `
             <div class="empty-history">No delivery history yet</div>
@@ -139,33 +148,33 @@ function renderHistory() {
 // Access Box Function
 function accessBox() {
     if (appState.parcels.length === 0) return;
-    
+
     const parcel = appState.parcels[0];
-    
+
     // Simulate unlocking the box
     const button = document.querySelector('.access-button');
     button.textContent = 'Opening...';
     button.disabled = true;
-    
+
     setTimeout(() => {
         // Move parcel to history
         appState.history.unshift({
             id: Date.now(),
             boxNumber: parcel.boxNumber,
             collectedDate: 'Today',
-            collectedTime: new Date().toLocaleTimeString('en-US', { 
-                hour: 'numeric', 
+            collectedTime: new Date().toLocaleTimeString('en-US', {
+                hour: 'numeric',
                 minute: '2-digit',
-                hour12: true 
+                hour12: true
             })
         });
-        
+
         // Remove from active parcels
         appState.parcels.shift();
-        
+
         // Show confirmation modal
         showConfirmationModal();
-        
+
         // Update UI
         setTimeout(() => {
             renderParcelStatus();
@@ -179,10 +188,10 @@ function accessBox() {
 function showNotification(message) {
     const notificationEl = document.getElementById('notification');
     const notificationText = document.getElementById('notificationText');
-    
+
     notificationText.textContent = message;
     notificationEl.classList.add('show');
-    
+
     setTimeout(() => {
         notificationEl.classList.remove('show');
     }, 4000);
@@ -207,10 +216,10 @@ function toggleParcelState() {
         appState.parcels.push({
             id: Date.now(),
             boxNumber: 'Box 2',
-            receivedTime: new Date().toLocaleTimeString('en-US', { 
-                hour: 'numeric', 
+            receivedTime: new Date().toLocaleTimeString('en-US', {
+                hour: 'numeric',
                 minute: '2-digit',
-                hour12: true 
+                hour12: true
             }),
             receivedDate: 'Today',
             status: 'waiting'
@@ -219,7 +228,7 @@ function toggleParcelState() {
     } else {
         appState.parcels = [];
     }
-    
+
     renderParcelStatus();
     renderActionButton();
 }
